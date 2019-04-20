@@ -38,6 +38,7 @@ import liquibase.snapshot.DatabaseSnapshot
 import liquibase.snapshot.SnapshotControl
 import liquibase.snapshot.SnapshotGeneratorFactory
 import org.springframework.context.ApplicationContext
+import liquibase.changelog.visitor.ChangeExecListener
 
 import java.sql.Connection
 
@@ -61,6 +62,8 @@ class GroovyPrecondition extends AbstractPrecondition {
     DatabaseChangeLog changeLog
 
     ChangeSet changeSet
+
+    ChangeExecListener changeExecListener
 
     ResourceAccessor resourceAccessor
 
@@ -87,10 +90,14 @@ class GroovyPrecondition extends AbstractPrecondition {
     }
 
     @Override
-    void check(Database database, DatabaseChangeLog changeLog, ChangeSet changeSet) throws PreconditionFailedException, PreconditionErrorException {
+    void check(Database database,
+               DatabaseChangeLog changeLog, 
+               ChangeSet changeSet,
+               ChangeExecListener changeExecListener) throws PreconditionFailedException, PreconditionErrorException {
         this.database = database
         this.changeLog = changeLog
         this.changeSet = changeSet
+        this.changeExecListener = changeExecListener
 
         if (!checkClosure) {
             return

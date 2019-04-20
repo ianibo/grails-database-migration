@@ -25,7 +25,8 @@ import liquibase.serializer.ChangeLogSerializerFactory
 class GroovyGenerateChangeLogCommand extends GenerateChangeLogCommand {
 
     @Override
-    protected Object run() throws Exception {
+    protected liquibase.command.CommandResult run() throws Exception {
+
         DiffResult diffResult = createDiffResult()
 
         DiffToChangeLog changeLogWriter = new DiffToChangeLog(diffResult, diffOutputControl)

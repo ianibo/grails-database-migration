@@ -20,12 +20,13 @@ import liquibase.command.core.DiffToChangeLogCommand
 import liquibase.diff.DiffResult
 import liquibase.diff.output.changelog.DiffToChangeLog
 import liquibase.serializer.ChangeLogSerializerFactory
+import liquibase.command.CommandResult
 
 @CompileStatic
 class GroovyDiffToChangeLogCommand extends DiffToChangeLogCommand {
 
     @Override
-    protected Object run() throws Exception {
+    protected CommandResult run() throws Exception {
         DiffResult diffResult = createDiffResult()
 
         if (!outputStream) {

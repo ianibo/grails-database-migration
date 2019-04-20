@@ -42,13 +42,17 @@ class StandardOutLogger extends AbstractLogger {
 
     private java.util.logging.Logger logger;
 
+
     public JavaLogger(java.util.logging.Logger logger) {
         this.logger = logger;
     }
 
-    @Override
-    public void log(Level level, LogType target, String message, Throwable e) {
-        logger.log(level, message, e);
+    public void debug(liquibase.logging.LogType target, java.lang.String message) {
+      this.debug(message)
+    }
+
+    public void debug(liquibase.logging.LogType target, java.lang.String message, Throwable e) {
+      this.debug(message,e)
     }
 
     @Override
@@ -63,7 +67,7 @@ class StandardOutLogger extends AbstractLogger {
 
     @Override
     public void severe(LogType target, String message, Throwable e) {
-        this.log(Level.SEVERE, target, message, e);
+        this.severe(target, message, e);
     }
 
     @Override
@@ -88,7 +92,7 @@ class StandardOutLogger extends AbstractLogger {
 
     @Override
     public void warning(LogType target, String message, Throwable e) {
-        this.log(Level.WARNING, target, message, e);
+        this.warning(target, message, e);
     }
 
     @Override
@@ -108,47 +112,8 @@ class StandardOutLogger extends AbstractLogger {
 
     @Override
     public void info(LogType target, String message, Throwable e) {
-        this.log(Level.INFO, target, message, e);
+        this.info(target, message, e);
 
     }
 
-    @Override
-    public void config(String message) {
-        this.config(LogType.LOG, message);
-    }
-
-    @Override
-    public void config(String message, Throwable e) {
-        this.config(LogType.LOG, message, e);
-    }
-
-    @Override
-    public void config(LogType logType, String message) {
-        this.config(logType, message, null);
-    }
-
-    @Override
-    public void config(LogType target, String message, Throwable e) {
-        this.log(Level.CONFIG, target, message, e);
-    }
-
-    @Override
-    public void fine(String message) {
-        this.fine(LogType.LOG, message);
-    }
-
-    @Override
-    public void fine(String message, Throwable e) {
-        this.fine(LogType.LOG, message, e);
-    }
-
-    @Override
-    public void fine(LogType target, String message) {
-        this.fine(target, message, null);
-    }
-
-    @Override
-    public void fine(LogType target, String message, Throwable e) {
-        this.log(Level.FINE, target, message, e);
-    }
 }
