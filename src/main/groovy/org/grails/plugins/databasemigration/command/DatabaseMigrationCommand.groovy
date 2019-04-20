@@ -167,7 +167,8 @@ trait DatabaseMigrationCommand {
 
     Date parseDateTime(String date, String time) throws ParseException {
         time = time ?: '00:00:00'
-        Date.parse('yyyy-MM-dd HH:mm:ss', "$date $time")
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss');
+        sdf.parse("$date $time".toString())
     }
 
     void withLiquibase(@ClosureParams(value = SimpleType, options = 'liquibase.Liquibase') Closure closure) {

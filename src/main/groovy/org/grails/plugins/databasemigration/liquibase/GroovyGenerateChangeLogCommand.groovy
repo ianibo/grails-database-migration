@@ -16,7 +16,7 @@
 package org.grails.plugins.databasemigration.liquibase
 
 import groovy.transform.CompileStatic
-import liquibase.command.GenerateChangeLogCommand
+import liquibase.command.core.GenerateChangeLogCommand
 import liquibase.diff.DiffResult
 import liquibase.diff.output.changelog.DiffToChangeLog
 import liquibase.serializer.ChangeLogSerializerFactory
