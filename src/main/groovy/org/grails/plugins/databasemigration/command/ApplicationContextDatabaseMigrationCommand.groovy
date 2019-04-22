@@ -59,7 +59,7 @@ trait ApplicationContextDatabaseMigrationCommand implements DatabaseMigrationCom
         dataSource = optionValue('dataSource') ?: DEFAULT_DATASOURCE_NAME
     }
 
-    abstract void handle()
+    abstract boolean handle()
 
     @Override
     ConfigMap getConfig() {

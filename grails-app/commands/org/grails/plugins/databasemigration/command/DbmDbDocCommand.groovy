@@ -15,19 +15,21 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 
 @CompileStatic
-class DbmDbDocCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmDbDocCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Generates Javadoc-like documentation based on current database and change log'
 
-    void handle() {
+    boolean handle() {
         def destination = args[0] ?: config.getProperty((String) "${configPrefix}.dbDocLocation", String) ?: 'build/dbdoc'
         withLiquibase { Liquibase liquibase ->
             liquibase.generateDocumentation(destination, contexts)
         }
+
+        return true
     }
 }

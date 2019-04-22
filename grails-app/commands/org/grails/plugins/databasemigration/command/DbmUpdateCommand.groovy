@@ -15,21 +15,22 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 
 @CompileStatic
-class DbmUpdateCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmUpdateCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Updates a database to the current version'
 
     @Override
-    void handle() {
+    boolean handle() {
         withLiquibase { Liquibase liquibase ->
             withTransaction {
                 liquibase.update(contexts)
             }
         }
+        return true;
     }
 }

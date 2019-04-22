@@ -15,18 +15,19 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 
 @CompileStatic
-class DbmMarkNextChangesetRanCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmMarkNextChangesetRanCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Mark the next change set as executed in the database'
 
-    void handle() {
+    boolean handle() {
         withLiquibase { Liquibase liquibase ->
             liquibase.markNextChangeSetRan(contexts)
         }
+        return true
     }
 }

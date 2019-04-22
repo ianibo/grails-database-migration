@@ -15,7 +15,7 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 import org.grails.plugins.databasemigration.DatabaseMigrationException
@@ -23,12 +23,12 @@ import org.grails.plugins.databasemigration.DatabaseMigrationException
 import java.text.ParseException
 
 @CompileStatic
-class DbmRollbackToDateCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmRollbackToDateCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Rolls back the database to the state it was in at the given date/time'
 
     @Override
-    void handle() {
+    boolean handle() {
         def dateStr = args[0]
         if (!dateStr) {
             throw new DatabaseMigrationException('Date must be specified as two strings with the format "yyyy-MM-dd HH:mm:ss" or as one strings with the format "yyyy-MM-dd"')
@@ -46,5 +46,7 @@ class DbmRollbackToDateCommand implements ApplicationCommand, ApplicationContext
         withLiquibase { Liquibase liquibase ->
             liquibase.rollback(date, contexts)
         }
+
+        return true;
     }
 }

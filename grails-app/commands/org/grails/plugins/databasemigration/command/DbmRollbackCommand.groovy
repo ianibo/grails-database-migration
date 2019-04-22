@@ -15,18 +15,18 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 import org.grails.plugins.databasemigration.DatabaseMigrationException
 
 @CompileStatic
-class DbmRollbackCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmRollbackCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Rolls back the database to the state it was in when the tag was applied'
 
     @Override
-    void handle() {
+    boolean handle() {
         def tagName = args[0]
         if (!tagName) {
             throw new DatabaseMigrationException("The $name command requires a tag")
@@ -35,5 +35,7 @@ class DbmRollbackCommand implements ApplicationCommand, ApplicationContextDataba
         withLiquibase { Liquibase liquibase ->
             liquibase.rollback(tagName, contexts)
         }
+
+        return true
     }
 }

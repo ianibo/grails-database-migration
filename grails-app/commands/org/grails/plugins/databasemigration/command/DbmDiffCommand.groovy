@@ -15,18 +15,18 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import grails.util.Environment
 import groovy.transform.CompileStatic
 import liquibase.database.Database
 import org.grails.plugins.databasemigration.DatabaseMigrationException
 
 @CompileStatic
-class DbmDiffCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmDiffCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Compares two databases and creates a changelog that will make the changes required to bring them into sync'
 
-    void handle() {
+    boolean handle() {
         def otherEnv = args[0]
         if (!otherEnv) {
             throw new DatabaseMigrationException('You must specify the environment to diff against')
@@ -60,5 +60,7 @@ class DbmDiffCommand implements ApplicationCommand, ApplicationContextDatabaseMi
         if (outputChangeLogFile && hasOption('add')) {
             appendToChangeLog(changeLogFile, outputChangeLogFile)
         }
+
+        return true
     }
 }

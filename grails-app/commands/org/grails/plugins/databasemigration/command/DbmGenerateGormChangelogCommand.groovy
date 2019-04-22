@@ -15,18 +15,18 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.database.Database
 import org.grails.plugins.databasemigration.DatabaseMigrationException
 
 @CompileStatic
-class DbmGenerateGormChangelogCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmGenerateGormChangelogCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Generates an initial changelog XML or Groovy DSL file from current GORM classes'
 
     @Override
-    void handle() {
+    boolean handle() {
         def filename = args[0]
 
         def outputChangeLogFile = resolveChangeLogFile(filename)
@@ -50,5 +50,7 @@ class DbmGenerateGormChangelogCommand implements ApplicationCommand, Application
         if (outputChangeLogFile && hasOption('add')) {
             appendToChangeLog(changeLogFile, outputChangeLogFile)
         }
+
+        return true
     }
 }

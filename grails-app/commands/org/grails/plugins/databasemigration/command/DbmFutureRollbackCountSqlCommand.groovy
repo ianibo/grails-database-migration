@@ -15,18 +15,18 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 import org.grails.plugins.databasemigration.DatabaseMigrationException
 
 @CompileStatic
-class DbmFutureRollbackCountSqlCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmFutureRollbackCountSqlCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Writes SQL to roll back the database to the current state after <number> changes in the changeslog have been applied'
 
     @Override
-    void handle() {
+    boolean handle() {
         def number = args[0]
         if (!number) {
             throw new DatabaseMigrationException("The $name command requires a change set number argument")
@@ -42,5 +42,7 @@ class DbmFutureRollbackCountSqlCommand implements ApplicationCommand, Applicatio
                 liquibase.futureRollbackSQL(number.toInteger(), contexts, writer)
             }
         }
+
+        return true
     }
 }

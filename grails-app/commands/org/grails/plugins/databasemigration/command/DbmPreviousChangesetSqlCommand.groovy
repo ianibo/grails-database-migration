@@ -15,19 +15,19 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 import liquibase.database.Database
 import org.grails.plugins.databasemigration.DatabaseMigrationException
 
 @CompileStatic
-class DbmPreviousChangesetSqlCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmPreviousChangesetSqlCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Generates the SQL to apply the previous <value> change sets'
 
     @Override
-    void handle() {
+    boolean handle() {
 
         String count = args[0]
         if (!count) {
@@ -54,5 +54,7 @@ class DbmPreviousChangesetSqlCommand implements ApplicationCommand, ApplicationC
                 }
             }
         }
+
+        return true
     }
 }

@@ -15,19 +15,19 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import groovy.util.logging.Commons
 import liquibase.Liquibase
 import org.grails.plugins.databasemigration.DatabaseMigrationException
 
 @CompileStatic
-class DbmUpdateCountCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmUpdateCountCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Applies next NUM changes to the database'
 
     @Override
-    void handle() {
+    boolean handle() {
         def number = args[0]
         if (!number) {
             throw new DatabaseMigrationException("The $name command requires a change set number argument")
@@ -39,5 +39,7 @@ class DbmUpdateCountCommand implements ApplicationCommand, ApplicationContextDat
         withLiquibase { Liquibase liquibase ->
             liquibase.update(number.toInteger(), contexts)
         }
+
+        return true;
     }
 }

@@ -15,18 +15,18 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.database.Database
 import org.grails.plugins.databasemigration.DatabaseMigrationException
 
 @CompileStatic
-class DbmGormDiffCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmGormDiffCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Diffs GORM classes against a database and generates a changelog XML or Groovy DSL file'
 
     @Override
-    void handle() {
+    boolean handle() {
         def filename = args[0]
         def outputChangeLogFile = resolveChangeLogFile(filename)
         if (outputChangeLogFile) {
@@ -51,5 +51,7 @@ class DbmGormDiffCommand implements ApplicationCommand, ApplicationContextDataba
         if (outputChangeLogFile && hasOption('add')) {
             appendToChangeLog(changeLogFile, outputChangeLogFile)
         }
+
+        return true;
     }
 }

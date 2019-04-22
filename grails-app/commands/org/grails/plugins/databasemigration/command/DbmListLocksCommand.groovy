@@ -15,18 +15,18 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import groovy.transform.stc.ClosureParams
 import groovy.transform.stc.SimpleType
 import liquibase.Liquibase
 
 @CompileStatic
-class DbmListLocksCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmListLocksCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Lists who currently has locks on the database changelog to STDOUT or a file'
 
-    void handle() {
+    boolean handle() {
         def filename = args[0]
 
         withLiquibase { Liquibase liquibase ->
@@ -34,6 +34,8 @@ class DbmListLocksCommand implements ApplicationCommand, ApplicationContextDatab
                 liquibase.reportLocks(printStream)
             }
         }
+
+        return true
     }
 
     private static void withFilePrintStreamOrSystemOut(String filename, @ClosureParams(value = SimpleType, options = "java.io.PrintStream") Closure closure) {

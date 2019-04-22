@@ -15,18 +15,18 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 import org.grails.plugins.databasemigration.DatabaseMigrationException
 
 @CompileStatic
-class DbmUpdateCountSqlCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmUpdateCountSqlCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Writes the SQL that will partially update a database to STDOUT or a file'
 
     @Override
-    void handle() {
+    boolean handle() {
         def number = args[0]
         if (!number) {
             throw new DatabaseMigrationException("The $name command requires a change set number argument")
@@ -41,5 +41,7 @@ class DbmUpdateCountSqlCommand implements ApplicationCommand, ApplicationContext
                 liquibase.update(number.toInteger(), contexts, writer)
             }
         }
+
+        return true;
     }
 }

@@ -15,18 +15,20 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 
 @CompileStatic
-class DbmClearChecksumsCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmClearChecksumsCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Removes current checksums from database. On next run checksums will be recomputed'
 
-    void handle() {
+    boolean handle() {
         withLiquibase { Liquibase liquibase ->
             liquibase.clearCheckSums()
         }
+
+        return true
     }
 }

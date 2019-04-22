@@ -15,18 +15,20 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand 
 import groovy.transform.CompileStatic
 import liquibase.Liquibase
 
 @CompileStatic
-class DbmValidateCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmValidateCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Checks the changelog for errors'
 
-    void handle() {
+    boolean handle() {
         withLiquibase { Liquibase liquibase ->
             liquibase.validate()
         }
+
+        return true;
     }
 }

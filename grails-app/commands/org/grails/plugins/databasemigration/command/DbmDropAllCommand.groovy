@@ -15,17 +15,17 @@
  */
 package org.grails.plugins.databasemigration.command
 
-import grails.dev.commands.ApplicationCommand
+import grails.dev.commands.GrailsApplicationCommand
 import groovy.transform.CompileStatic
 import liquibase.CatalogAndSchema
 import liquibase.Liquibase
 
 @CompileStatic
-class DbmDropAllCommand implements ApplicationCommand, ApplicationContextDatabaseMigrationCommand {
+class DbmDropAllCommand implements GrailsApplicationCommand, ApplicationContextDatabaseMigrationCommand {
 
     final String description = 'Drops all database objects owned by the user'
 
-    void handle() {
+    boolean handle() {
         def schemaNames = args[0]
         def schemas = schemaNames?.split(',')?.collect { String schemaName -> new CatalogAndSchema(null, schemaName) }
 
@@ -36,5 +36,7 @@ class DbmDropAllCommand implements ApplicationCommand, ApplicationContextDatabas
                 liquibase.dropAll()
             }
         }
+
+        return true
     }
 }

@@ -25,7 +25,7 @@ class DbmUpdateSqlCommand implements ApplicationCommand, ApplicationContextDatab
     final String description = 'Writes the SQL that will update the database to the current version to STDOUT or a file'
 
     @Override
-    void handle() {
+    boolean handle() {
         def filename = args[0]
 
         withLiquibase { Liquibase liquibase ->
@@ -33,5 +33,6 @@ class DbmUpdateSqlCommand implements ApplicationCommand, ApplicationContextDatab
                 liquibase.update(contexts, writer)
             }
         }
+        return true;
     }
 }
